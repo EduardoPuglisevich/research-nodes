@@ -171,6 +171,3 @@ Tag distributions and word clouds further validate the coherence of the detected
 ## Contributors
 
 - **Eduardo Elías Puglisevich Vergara**  
-- **Samuel Esteban Cano Chocce**  
-- **Nicolás Miguel Guerrero Icochea**  
-- **Fernando Samuel Paredes Espinoza**
