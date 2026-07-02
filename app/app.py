@@ -62,9 +62,6 @@ def index():
     
     return render_template('index.html', nodes=nodes, links=links,titles =titles_top5_pr)
 
-if __name__ == "__main__":
-    app.run(debug=True)
-
 @app.route('/graph', methods=['POST', 'GET'])
 def graph():
     recomended_titles = []
@@ -106,3 +103,5 @@ def graph():
         node = None
     return render_template('graph.html', node=node,articles=titles, titles =recomended_titles, nodes=nodes, links=links, titles_community = recomended_titles_community)
 
+if __name__ == "__main__":
+    app.run(debug=True)
