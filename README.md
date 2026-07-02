@@ -85,7 +85,7 @@ Three algorithms — Louvain, Infomap, and Leiden — were each run across a ful
 | Communities | 5 |
 | Modularity | 0.537 |
 
-Leiden was chosen because it consistently produced higher modularity than Louvain and Infomap across the threshold sweep, not because it's the newest algorithm in the comparison — the notebook shows the actual modularity curves behind that decision.
+Leiden was chosen because it consistently produced higher modularity than Louvain and Infomap across the threshold sweep — the notebook shows the modularity curves behind that decision.
 
 ### Centrality analysis
 Within each of the 5 detected communities, **closeness centrality** identifies the article most structurally accessible to the rest of its community, while **PageRank** identifies the article with the strongest connections to other influential articles — together giving two different, complementary answers to "what's the most important paper in this cluster."
@@ -100,4 +100,4 @@ The analysis output (the similarity graph and per-article centrality scores) fee
 - **Search & explore**: pick any article, set a similarity threshold via a live slider, and the app extracts an N-hop weighted subgraph around it, rendered as an interactive D3.js force-directed graph (drag nodes, hover for details).
 - **Two recommendation modes side by side**: direct neighbors by edge weight ("most similar to this specific article") versus top articles by closeness centrality within the same community ("most central to this article's broader theme") — surfacing the difference between local similarity and thematic importance.
 
-The similarity pipeline currently runs on TF-IDF for scalability; the notebook's SBERT comparison already shows where swapping in semantic embeddings would add the most value, making it a natural next iteration rather than a distant idea.
+The similarity pipeline currently runs on TF-IDF for scalability; the notebook's SBERT comparison already shows where swapping in semantic embeddings would add the most value.
