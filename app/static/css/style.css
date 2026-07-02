@@ -1,0 +1,27 @@
+.node {
+    stroke: #fff;
+    stroke-width: 1.5px;
+}
+.link {
+    stroke: #999;
+    stroke-opacity: 0.6;
+}
+.container {
+    margin: 0 0;
+    
+  }
+  
+.row {
+display: flex;
+justify-content: space-between;
+}
+
+.intro {
+    background-color: #f9f9f9;
+}
+
+
+  
+  
+
+

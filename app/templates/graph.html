@@ -1,0 +1,110 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container-fluid intro pt-2 px-4 py-4">
+    <div class="row">
+      <div class="col-md-6 d-flex flex-column justify-content-center">
+        <div class="mx-5">
+            <h2>Research Nodes</h2>
+            <p>Nuestra aplicación permite visualizar redes académicas,
+                 conectando artículos, autores y temas clave para facilitar 
+                 la investigación y el acceso a contenido relevante.</p>
+        </div>
+      </div>
+      <div class="col-md-6 text-center">
+        <form action="{{ url_for('graph') }}" method="post" class="mt-5">
+            <div class="form-group">
+                <label for="node" class="h5">Buscar artículo</label>
+                <select class="form-control form-control-lg" id="node" name="node" required>
+                    <option selected disabled value="">Choose...</option>
+                    {% for article in articles %}
+                    <option value="{{ article[0]}}">{{ article[1] }}</option>
+                    {% endfor %}
+                </select>
+                <label for="threshold" class="h5 mt-3">Umbral de similitud</label>
+<div class="d-flex align-items-center justify-content-center">
+    <input type="range" class="form-control-range" id="threshold" name="threshold" min="0" max="1" 
+            step="0.01" value="0.1" required oninput="updateThresholdValue(this.value)">
+    <span id="thresholdValue" class="ml-2 ms-2">20%</span>
+</div>
+<small id="tresholdHelp" class="form-text text-muted">Ajusta el umbral de similitud para mostrar más o menos conexiones.</small>
+            </div>
+            <div class="d-flex justify-content-center mt-4">
+                <button class="btn btn-primary btn-lg w-50" type="submit">Buscar red</button>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+{% if node %}
+<div class="container-fluid">
+    <h2 class="text-center mt-5">Artículos recomendados para:</h2>
+    <h2 class="text-center mt-1">{{ node }}</h2>
+    <div class="row justify-content-center mt-5">
+        {% for title in titles %}
+        <div class="col-md-2 d-flex mx-3">
+            <div class="card h-100 d-flex flex-column">
+                <div class="card-body text-center d-flex flex-column">
+                    <h5 class="card-title">Artículo recomendado</h5>
+                    <p class="card-text flex-grow-1">{{ title[1] }}</p>
+                    <form action="{{ url_for('graph') }}" method="post">
+                        <input type="hidden" name="node" value="{{ title[0] }}">
+                        <input type="hidden" name="threshold" value="{{ 0.1 }}">
+                        <button type="submit" class="btn btn-primary mt-auto">Ver similares</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div >
+<div class="container-fluid">
+        <h2 class="text-center mt-5">Red de artículos relacionados</h2>
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-12 text-center">
+                <svg id="my-graph" width="1000" height="700"></svg>
+                <div id="tooltip" style="position: absolute; padding: 8px; background:
+                 lightgray; border-radius: 4px; visibility: hidden;
+                  pointer-events: none;"></div>
+                <script>
+                    const nodes = {{ nodes | tojson }};
+                    const links = {{ links | tojson }};
+                </script>
+                <script src="{{ url_for('static', filename='graph.js') }}"></script>
+            </div>
+        </div>
+</div>
+<div class="container-fluid mb-5">
+    <h2 class="text-center mt-5">Artículos recomendados en la comunidad del articulo</h2>
+    <div class="row justify-content-center mt-5">
+        {% for title in titles_community %}
+        <div class="col-md-2 d-flex mx-3">
+            <div class="card h-100 d-flex flex-column">
+                <div class="card-body text-center d-flex flex-column">
+                    <h5 class="card-title">Artículo recomendado</h5>
+                    <p class="card-text flex-grow-1">{{ title[1] }}</p>
+                    <form action="{{ url_for('graph') }}" method="post">
+                        <input type="hidden" name="node" value="{{ title[0] }}">
+                        <input type="hidden" name="threshold" value="{{ 0.1 }}">
+                        <button type="submit" class="btn btn-primary mt-auto">Ver similares</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div >
+{% endif %}
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    function updateThresholdValue(value) {
+        document.getElementById('thresholdValue').textContent = (value * 100).toFixed(0) + '%';
+    }
+
+    // Inicializar el valor del umbral al cargar la página
+    document.addEventListener('DOMContentLoaded', function() {
+        updateThresholdValue(document.getElementById('threshold').value);
+    });
+</script>
+{% endblock %}
